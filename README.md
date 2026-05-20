@@ -6,7 +6,7 @@
 
 An AI command center for the servers you already SSH into — for macOS, iPhone, and Android. Your SSH keys never leave your device.
 
-[**⬇ Download for Mac (Apple Silicon)**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-arm64.dmg) &nbsp;·&nbsp; [Release notes](https://github.com/meetprimo/remotex/releases/latest) &nbsp;·&nbsp; [remotex.dev](https://remotex.dev)
+[**⬇ Download for Mac (Apple Silicon)**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-arm64.dmg) &nbsp;·&nbsp; [Release notes](https://github.com/meetprimo/remotex/releases/latest) &nbsp;·&nbsp; [Discord](https://discord.gg/fb4X6kxtAH) &nbsp;·&nbsp; [remotex.dev](https://remotex.dev)
 
 [![Download on the App Store](https://img.shields.io/badge/iPhone-App%20Store-000?logo=apple)](https://apps.apple.com/us/app/remotex-server-ops/id6766106493) [![Get it on Google Play](https://img.shields.io/badge/Android-Google%20Play-000?logo=googleplay)](https://play.google.com/store/apps/details?id=dev.remotex.app)
 
@@ -112,7 +112,7 @@ RemoteX checks this repo for new releases on launch and roughly once an hour whi
 
 ## Issues and feedback
 
-Bug reports and feature requests are welcome in [Issues](https://github.com/meetprimo/remotex/issues) and [Discussions](https://github.com/meetprimo/remotex/discussions), or via the in-app feedback flow under **Settings → About** and at <https://remotex.dev/contact>.
+Bug reports and feature requests are welcome in [Issues](https://github.com/meetprimo/remotex/issues), [Discussions](https://github.com/meetprimo/remotex/discussions), and the [RemoteX Discord](https://discord.gg/fb4X6kxtAH), or via the in-app feedback flow under **Settings → About** and at <https://remotex.dev/contact>.
 
 ## License
 
