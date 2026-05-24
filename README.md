@@ -12,6 +12,15 @@ An AI command center for the infrastructure you already operate — for macOS, L
 
 <br>
 
+<sub>BRING YOUR OWN AI · WORKS WITH</sub>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/provider-strip-dark.svg">
+  <img alt="Supported AI providers: Anthropic, OpenAI, Gemini, GitHub Copilot, OpenRouter, xAI, DeepSeek, Mistral, Vercel, Amazon Bedrock, Ollama, LM Studio" src="assets/provider-strip-light.svg" width="720">
+</picture>
+
+<br>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/app-dark.png">
   <img alt="RemoteX desktop app — multi-connection sidebar, a chat-first conversation diagnosing a production issue, command output cards, and a Touch-ID-gated approval card." src="assets/app-light.png" width="900">
