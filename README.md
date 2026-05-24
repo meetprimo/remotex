@@ -4,9 +4,9 @@
 
 ### Tell RemoteX what is broken. It diagnoses, proposes a fix, runs the commands you approve, and verifies the result — across SSH servers, Kubernetes clusters, and databases.
 
-An AI command center for the infrastructure you already operate — for macOS, Linux, iPhone, and Android. Keys never leave your device.
+An AI command center for the infrastructure you already operate — for macOS, Linux, Windows, iPhone, and Android. Keys never leave your device.
 
-[**⬇ Mac (Apple Silicon)**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-arm64.dmg) &nbsp;·&nbsp; [**⬇ Linux AppImage**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX.AppImage) &nbsp;·&nbsp; [**⬇ Linux .deb**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-x64.deb) &nbsp;·&nbsp; [Release notes](https://github.com/meetprimo/remotex/releases/latest) &nbsp;·&nbsp; [Discord](https://discord.gg/fb4X6kxtAH) &nbsp;·&nbsp; [remotex.dev](https://remotex.dev)
+[**⬇ Mac (Apple Silicon)**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-arm64.dmg) &nbsp;·&nbsp; [**⬇ Linux AppImage**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX.AppImage) &nbsp;·&nbsp; [**⬇ Linux .deb**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-x64.deb) &nbsp;·&nbsp; [**⬇ Windows installer**](https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-Setup.exe) &nbsp;·&nbsp; [Release notes](https://github.com/meetprimo/remotex/releases/latest) &nbsp;·&nbsp; [Discord](https://discord.gg/fb4X6kxtAH) &nbsp;·&nbsp; [remotex.dev](https://remotex.dev)
 
 [![Download on the App Store](https://img.shields.io/badge/iPhone-App%20Store-000?logo=apple)](https://apps.apple.com/us/app/remotex-server-ops/id6766106493) [![Get it on Google Play](https://img.shields.io/badge/Android-Google%20Play-000?logo=googleplay)](https://play.google.com/store/apps/details?id=dev.remotex.app)
 
@@ -34,7 +34,7 @@ An AI command center for the infrastructure you already operate — for macOS, L
 
 RemoteX is an AI agent that operates the infrastructure you already manage. Describe a problem in plain English — *"orders table is slow this morning"*, *"the staging pod won't start"*, *"disk on /var keeps filling up"* — and it runs read-only checks, reads logs, queries databases, inspects Kubernetes, proposes a concrete fix, runs the commands **you approve**, and verifies the result. Full SSH client, K8s client, and database client all in one chat-first surface.
 
-This repository hosts the signed macOS builds, the Linux AppImage and `.deb`, and the auto-update feed. **Source code is private**; this is the public home for downloads, releases, and feedback.
+This repository hosts the signed macOS builds, the Linux AppImage and `.deb`, the Windows installer and portable `.exe` (unsigned preview), and the auto-update feed. **Source code is private**; this is the public home for downloads, releases, and feedback.
 
 ## Features
 
@@ -93,8 +93,8 @@ This repository hosts the signed macOS builds, the Linux AppImage and `.deb`, an
 
 ### Platforms & pricing
 
-- **Mac, Linux, iPhone, Android.** One subscription covers all of them. **Free** covers one connection and one of each snippet/playbook/rule; **Pro** removes the caps.
-- **Signed & auto-updating.** Every macOS build is signed with an Apple Developer ID and notarized. The Linux AppImage embeds its own update logic and tracks the same release feed; the `.deb` carries a desktop entry under Applications and auto-updates via the AppImage updater. Install once and RemoteX updates itself silently in the background.
+- **Mac, Linux, Windows, iPhone, Android.** One subscription covers all of them. **Free** covers one connection and one of each snippet/playbook/rule; **Pro** removes the caps.
+- **Signed & auto-updating.** Every macOS build is signed with an Apple Developer ID and notarized. The Linux AppImage embeds its own update logic and tracks the same release feed; the `.deb` carries a desktop entry under Applications and auto-updates via the AppImage updater. Windows is currently an **unsigned preview** — SmartScreen may warn on first run; auto-update works via the NSIS installer once installed. Install once and RemoteX updates itself silently in the background.
 
 ## Install
 
@@ -137,7 +137,42 @@ https://remotex.dev/api/download?platform=linux-appimage
 https://remotex.dev/api/download?platform=linux-deb
 ```
 
+### Windows (x64, unsigned preview)
+
+The first Windows builds ship **unsigned** on purpose — see the [signing rationale](#why-the-windows-build-is-unsigned-for-now) below. Expect a `Windows protected your PC` SmartScreen prompt on first launch; click **More info → Run anyway**.
+
+**Installer (NSIS)** — adds a Start menu entry, registers an uninstaller, and auto-updates via electron-updater:
+
+```powershell
+iwr https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-Setup.exe -OutFile RemoteX-Setup.exe
+.\RemoteX-Setup.exe
+```
+
+**Portable single `.exe`** — no installer, drop it anywhere:
+
+```powershell
+iwr https://github.com/meetprimo/remotex/releases/latest/download/RemoteX-x64.exe -OutFile RemoteX.exe
+.\RemoteX.exe
+```
+
+Or via the site:
+
+```
+https://remotex.dev/api/download?platform=windows-installer
+https://remotex.dev/api/download?platform=windows-portable
+```
+
 Also available on [iPhone](https://apps.apple.com/us/app/remotex-server-ops/id6766106493) and [Android](https://play.google.com/store/apps/details?id=dev.remotex.app).
+
+### Why the Windows build is unsigned (for now)
+
+Modern Windows SmartScreen treats EV, OV, and Azure Trusted Signing certificates through the same reputation model — paying for a cert without download volume to build reputation is wasted spend. The plan:
+
+1. **Ship unsigned now** (this is what you're downloading) and let SmartScreen reputation accumulate organically as the download count grows.
+2. **Add MSIX via the Microsoft Store** as the trusted-install path — Microsoft re-signs MSIX packages automatically, no cert cost on our side, no SmartScreen warning for the Store version.
+3. **Revisit Azure Artifact Signing** ($10/month) for direct `.exe` downloads only when Windows usage proves out.
+
+If the SmartScreen prompt blocks you and you'd rather not click through, the Microsoft Store path will be the right one once it ships.
 
 ## Verify the build
 
@@ -165,9 +200,20 @@ dpkg-deb -I RemoteX-x64.deb
 ./RemoteX.AppImage --appimage-extract-and-run --version
 ```
 
+### Windows
+
+The Windows binaries are **unsigned** for now — there is nothing to verify with `signtool verify`. Cross-check the SHA-256 against the value published on the GitHub release:
+
+```powershell
+Get-FileHash RemoteX-Setup.exe -Algorithm SHA256
+Get-FileHash RemoteX-x64.exe   -Algorithm SHA256
+```
+
+Compare each hash with the corresponding entry in the `latest.yml` asset on the release page. Once we move to MSIX via the Microsoft Store, the Store-distributed copy will carry Microsoft's signature automatically.
+
 ## Auto-update
 
-RemoteX checks this repo for new releases on launch and roughly once an hour while running. Updates download in the background and install on next launch. Change or disable the update channel under **Settings → Updates** in the app. Beta-channel users automatically receive stable releases too — whichever is newer wins. The Linux AppImage uses electron-updater against `latest-linux.yml`; `.deb` installs share the same updater because the AppImage payload is embedded.
+RemoteX checks this repo for new releases on launch and roughly once an hour while running. Updates download in the background and install on next launch. Change or disable the update channel under **Settings → Updates** in the app. Beta-channel users automatically receive stable releases too — whichever is newer wins. The Linux AppImage uses electron-updater against `latest-linux.yml`; `.deb` installs share the same updater because the AppImage payload is embedded. The Windows installer auto-updates against `latest.yml`; the **portable `.exe`** does not auto-update (replace the file manually when a new release ships).
 
 ## Issues and feedback
 
